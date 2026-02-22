@@ -1,29 +1,20 @@
-// Navigasi Form Login
+// Auth
 function toggleAuth(type) {
-    const forms = ['loginForm', 'registerForm', 'forgotForm'];
-    forms.forEach(f => document.getElementById(f).classList.add('hidden'));
+    document.getElementById('loginForm').classList.add('hidden');
+    document.getElementById('registerForm').classList.add('hidden');
+    document.getElementById('forgotForm').classList.add('hidden');
     document.getElementById(type + 'Form').classList.remove('hidden');
 }
 
-// Simulasi Login
 function handleLogin() {
     const user = document.getElementById('userLogin').value;
-    const pass = document.getElementById('passLogin').value;
-    if(user !== "" && pass !== "") {
-        location.href = 'jobdesk.html';
-    } else {
-        alert("Masukkan Username dan Password!");
-    }
+    if(user !== "") { location.href = 'jobdesk.html'; } 
+    else { alert("Isi Username!"); }
 }
 
-// Logout
-function handleLogout() {
-    if(confirm("Keluar dari sistem?")) {
-        location.href = 'index.html';
-    }
-}
+function handleLogout() { location.href = 'index.html'; }
 
-// Logika Jobdesk
+// Jobdesk Logic
 const dateOptions = { day: "numeric", month: "long", year: "numeric" };
 const dateNow = new Date().toLocaleDateString("id-ID", dateOptions);
 
@@ -39,7 +30,7 @@ function generateJobdesk() {
     const staffArr = document.getElementById("staffInput").value.split("\n").filter(t => t.trim() !== "");
     const jobArr = document.getElementById("jobInput").value.split("\n").filter(t => t.trim() !== "");
 
-    if (staffArr.length < 1) return alert("Masukkan nama staff!");
+    if (staffArr.length < 1) return alert("Isi nama staff!");
 
     const operator = staffArr[0];
     const others = staffArr.slice(1);
@@ -68,7 +59,7 @@ function saveData(data, shift) {
     let history = JSON.parse(localStorage.getItem("tvtoto_history")) || [];
     const entry = { id: Date.now(), date: dateNow, shift, assignments: data };
     history.unshift(entry);
-    localStorage.setItem("tvtoto_history", JSON.stringify(history.slice(0, 10)));
+    localStorage.setItem("tvtoto_history", JSON.stringify(history.slice(0, 5)));
     renderHistory();
 }
 
@@ -78,9 +69,9 @@ function renderHistory() {
     let history = JSON.parse(localStorage.getItem("tvtoto_history")) || [];
     list.innerHTML = history.map(item => `
         <div class="history-item" onclick="loadHistory(${item.id})">
-            <b>${item.shift}</b><br><small>${item.date}</small>
+            ${item.shift}<br>${item.date}
         </div>
-    `).join('') || "Belum ada riwayat.";
+    `).join('') || "Kosong";
 }
 
 window.loadHistory = function(id) {
@@ -93,17 +84,14 @@ window.loadHistory = function(id) {
 }
 
 function clearHistory() {
-    if (confirm("Hapus semua riwayat?")) {
-        localStorage.removeItem("tvtoto_history");
-        renderHistory();
-    }
+    localStorage.removeItem("tvtoto_history");
+    renderHistory();
 }
 
 function downloadImage() {
-    const area = document.getElementById("captureArea");
-    html2canvas(area).then(canvas => {
+    html2canvas(document.getElementById("captureArea")).then(canvas => {
         const link = document.createElement("a");
-        link.download = `Jobdesk-TVTOTO-${dateNow}.png`;
+        link.download = `Jobdesk-${dateNow}.png`;
         link.href = canvas.toDataURL();
         link.click();
     });
