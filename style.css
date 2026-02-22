@@ -1,107 +1,108 @@
-/* --- BASE & LAYOUT --- */
-:root {
-    --primary-bg: #0b1120;
-    --sidebar-bg: #0f172a;
-    --accent-blue: #3b82f6;
-    --accent-yellow: #ffff00;
-    --danger: #ff4d4d;
-    --success: #00ff88;
-    --text-main: #f8fafc;
-    --glass: rgba(255, 255, 255, 0.03);
-    --border: rgba(255, 255, 255, 0.1);
-}
-
+/* --- RESET & DASAR --- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-    margin: 0;
     font-family: 'Plus Jakarta Sans', sans-serif;
-    background: var(--primary-bg);
-    color: var(--text-main);
+    background: #0b1120;
+    color: #f8fafc;
+    display: flex;
     height: 100vh;
     overflow: hidden;
 }
 
-.flex { display: flex; height: 100vh; }
-.hidden { display: none !important; }
-
 /* --- SIDEBAR --- */
 .sidebar {
     width: 260px;
-    background: var(--sidebar-bg);
-    border-right: 1px solid var(--border);
+    background: #0f172a;
+    border-right: 1px solid rgba(255,255,255,0.1);
     display: flex;
     flex-direction: column;
+    flex-shrink: 0;
 }
 
-.sidebar-header { padding: 25px; border-bottom: 1px solid var(--border); }
-.brand-text { font-family: 'Orbitron'; font-size: 20px; font-weight: 900; }
-.brand-text span { color: var(--accent-blue); }
+.brand { padding: 25px; font-family: 'Orbitron'; font-weight: 900; font-size: 20px; }
+.brand span { color: #3b82f6; }
 
-.menu-label { padding: 15px 25px 5px; font-size: 11px; color: #64748b; font-weight: 800; text-transform: uppercase; }
+.nav-label { padding: 15px 25px 5px; font-size: 11px; color: #64748b; font-weight: 800; text-transform: uppercase; }
 
 .nav-item {
     padding: 12px 25px;
     color: #94a3b8;
     cursor: pointer;
-    font-size: 14px;
     display: flex;
     align-items: center;
     gap: 12px;
-    transition: 0.3s;
+    font-size: 14px;
+    transition: 0.2s;
 }
 
 .nav-item:hover { background: rgba(255,255,255,0.05); }
-.nav-item.active { background: rgba(59, 130, 246, 0.1); color: var(--accent-blue); border-left: 4px solid var(--accent-blue); }
+.nav-item.active { background: rgba(59, 130, 246, 0.1); color: #3b82f6; border-left: 4px solid #3b82f6; }
 
-.nav-badge { font-size: 9px; padding: 2px 6px; border-radius: 4px; font-weight: bold; margin-left: auto; color: #fff; }
-.badge-new { background: #ef4444; }
-.badge-auto { background: #f59e0b; }
-
-/* TOMBOL MERAH ABSENSI */
-.nav-absensi-red {
+/* TOMBOL MERAH ANDA */
+.btn-red-absensi {
     background: #ff0000 !important;
     color: white !important;
     margin: 10px 15px;
-    border-radius: 8px;
-    font-weight: 800;
-    box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
+    border-radius: 6px;
+    font-weight: bold;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(255, 0, 0, 0.3);
 }
 
-/* --- MAIN CONTENT AREA --- */
-.main-content { flex: 1; padding: 25px; overflow-y: auto; }
+/* --- KONTEN UTAMA --- */
+.main-wrapper { flex-grow: 1; padding: 30px; overflow-y: auto; }
+.hidden { display: none !important; }
 
-.card { background: var(--glass); padding: 20px; border-radius: 15px; border: 1px solid var(--border); margin-bottom: 20px; }
-.orbitron-title { font-family: 'Orbitron'; color: var(--accent-yellow); font-size: 16px; margin: 0 0 20px 0; }
-
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-textarea, select, input { 
-    width: 100%; padding: 12px; background: #000; border: 1px solid var(--border); 
-    color: #fff; border-radius: 8px; font-size: 12px; margin-top: 5px;
+/* PANEL INPUT */
+.panel-card {
+    background: rgba(15, 23, 42, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 25px;
 }
 
-.btn-group-row { display: flex; gap: 10px; margin-top: 15px; }
-.btn-group-row button { flex: 1; padding: 12px; border-radius: 8px; cursor: pointer; border: none; font-family: 'Orbitron'; font-size: 11px; font-weight: bold; }
-
-.btn-acak { background: var(--accent-blue); color: #fff; }
-.btn-png { background: var(--success); color: #000; }
-
-/* --- JOBDESK TABLE (DIPERKECIL) --- */
-.capture-container { display: flex; justify-content: center; margin-top: 20px; }
-.capture-box-small { 
-    width: 100%; max-width: 550px; background: #fff; padding: 25px; 
-    border-radius: 8px; color: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+.input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+textarea, select, input {
+    width: 100%; padding: 12px; background: #000; border: 1px solid #334155;
+    color: #fff; border-radius: 6px; margin-top: 8px; font-size: 13px;
 }
-.capture-header { text-align: center; border-bottom: 2px solid #000; margin-bottom: 15px; padding-bottom: 10px; }
-.shift-tag { font-size: 18px; font-weight: 900; color: #16a34a; margin-top: 5px; }
 
-.result-table-compact { width: 100%; border-collapse: collapse; font-size: 13px; }
-.result-table-compact th { background: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; }
-.result-table-compact td { padding: 8px; border: 1px solid #cbd5e1; text-align: center; font-weight: 800; }
+/* TOMBOL AKSI */
+.action-bar { display: flex; gap: 12px; margin-top: 20px; }
+.btn { 
+    flex: 1; padding: 12px; border: none; border-radius: 6px; 
+    font-family: 'Orbitron'; font-weight: bold; cursor: pointer; font-size: 12px; 
+}
+.btn-blue { background: #3b82f6; color: #fff; }
+.btn-green { background: #10b981; color: #fff; }
 
-/* --- ABSENSI SECTION --- */
-.stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px; }
-.stat-card { background: var(--glass); padding: 15px; border-radius: 12px; text-align: center; border: 1px solid var(--border); }
-.stat-card.ontime { color: var(--success); border-bottom: 3px solid var(--success); }
-.stat-card.late { color: var(--danger); border-bottom: 3px solid var(--danger); }
+/* --- REVISI TABEL (AGAR TIDAK HANCUR) --- */
+.output-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 20px;
+}
 
-.abs-tools { display: grid; grid-template-columns: 1fr 1fr 120px 100px; gap: 10px; margin-bottom: 20px; }
-.clock-box { background: #000; color: var(--success); border: 1px solid var(--success); height: 45px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: 'Orbitron'; font-weight: bold; }
+#captureArea {
+    width: 100%;
+    max-width: 800px; /* Lebar ideal agar tidak terlalu kecil/besar */
+    background: #fff;
+    color: #000;
+    padding: 30px;
+    border-radius: 4px;
+}
+
+.table-header { text-align: center; border-bottom: 2px solid #000; margin-bottom: 20px; padding-bottom: 10px; }
+.table-header h2 { font-size: 18px; text-transform: uppercase; }
+
+.main-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+.main-table th { background: #f1f5f9; padding: 12px; border: 1px solid #000; font-size: 13px; }
+.main-table td { padding: 10px; border: 1px solid #000; text-align: center; font-weight: bold; font-size: 14px; }
+
+/* ABSENSI PANEL */
+.abs-stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px; }
+.stat-box { background: #1e293b; padding: 20px; border-radius: 10px; text-align: center; }
+.stat-box h3 { font-size: 12px; color: #94a3b8; }
+.stat-box p { font-size: 24px; font-weight: bold; color: #00ff88; margin-top: 5px; }
