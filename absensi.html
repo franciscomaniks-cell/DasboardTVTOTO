@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TVTOTO | Absensi Kehadiran</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="flex">
+        <div class="sidebar">
+            <div class="sidebar-header"><div class="brand-text">DASH<span>BOARD</span></div></div>
+            <div class="menu-label">Operational Tool</div>
+            <div class="nav-item" onclick="location.href='dashboard.html'"><span>📡</span> Atur Jobdesk</div>
+            <div class="nav-item active"><span>👥</span> Absensi Kehadiran <span class="nav-badge">PRO</span></div>
+            <div style="margin-top: auto; padding-bottom: 20px;">
+                <div class="nav-item" onclick="handleLogout()" style="color: var(--danger);"><span>🚪</span> Sign Out</div>
+            </div>
+        </div>
+
+        <div class="main-content" style="overflow-y: auto;">
+            <div class="stat-grid">
+                <div class="stat-card stat-ontime"><h4>Tepat Waktu</h4><p id="sOn">0</p></div>
+                <div class="stat-card stat-late"><h4>Terlambat</h4><p id="sLate">0</p></div>
+                <div class="stat-card stat-absent"><h4>Belum Absen</h4><p id="sAbs">0</p></div>
+            </div>
+
+            <div class="absensi-header-panel">
+                <div class="date-display">
+                    <span id="pDay">SENIN</span>
+                    <h2 id="pDate">-- --- ----</h2>
+                </div>
+                <div class="title-display">SISTEM ABSENSI PRO VOICE</div>
+            </div>
+
+            <div class="tool-bar-absensi">
+                <select id="sShift">
+                    <option value="PAGI">PAGI (07:45)</option>
+                    <option value="SHIFT G">SHIFT G (09:45)</option>
+                    <option value="SORE">SORE (15:45)</option>
+                    <option value="MALAM">MALAM (21:45)</option>
+                </select>
+                <input type="text" id="iName" placeholder="Nama Staff..." list="staffs">
+                <datalist id="staffs"></datalist>
+                <div id="clockDisplay" class="digital-clock-small">00:00:00</div>
+                <button class="btn-absen" onclick="tambahAbsen()">ABSEN</button>
+                <button class="btn-reset-abs" onclick="resetData()">RESET</button>
+            </div>
+
+            <div class="table-container-abs">
+                <table id="tblMain">
+                    <thead>
+                        <tr>
+                            <th>SHIFT</th>
+                            <th>NAMA STAFF</th>
+                            <th>TARGET</th>
+                            <th>AKTUAL</th>
+                            <th>STATUS</th>
+                            <th>AKSI</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="sidebar-log">
+            <div class="log-header">VOICE LOGS</div>
+            <div id="chatWrap" class="log-body"></div>
+        </div>
+    </div>
+
+    <script src="absensi-logic.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
