@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TVTOTO | Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <div class="flex">
+        <div class="sidebar">
+            <div class="sidebar-header"><div class="brand-text">DASH<span>BOARD</span></div></div>
+            <div class="menu-label">Main System</div>
+            <div class="nav-item"><span>📊</span> Overview</div>
+            <div class="menu-label">Operational Tool</div>
+            <div class="nav-item active" onclick="location.href='dashboard.html'"><span>📡</span> Atur Jobdesk <span class="nav-badge">NEW</span></div>
+            <div class="nav-item"><span>📱</span> Absensi LINE <span class="nav-badge">AUTO</span></div>
+            <div class="nav-item nav-special" onclick="location.href='absensi.html'"><span>👥</span> Absensi Kehadiran</div>
+            
+            <div style="margin-top: auto; padding-bottom: 20px;">
+                <div class="nav-item" onclick="handleLogout()" style="color: var(--danger);"><span>🚪</span> Sign Out</div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="card">
+                <h2 class="orbitron-title">SISTEM PENGACAK JOBDESK</h2>
+                <div class="grid-2">
+                    <div>
+                        <label>🕒 Pilih Shift Kerja</label>
+                        <select id="shiftSelect" class="custom-select">
+                            <option value="SHIFT PAGI">SHIFT PAGI</option>
+                            <option value="SHIFT SORE">SHIFT SORE</option>
+                            <option value="SHIFT MALAM">SHIFT MALAM</option>
+                        </select>
+                        <label style="margin-top:15px">👥 Daftar Staff</label>
+                        <textarea id="staffInput" rows="5">RADO DINATA
+IRVAN GANESHA
+JOSIA ROMANDA GINTING</textarea>
+                    </div>
+                    <div>
+                        <label>💼 Daftar Jobdesk</label>
+                        <textarea id="jobInput" rows="8">DEPO BRI, BNI
+WD BCA, BRI
+SCATER</textarea>
+                    </div>
+                </div>
+                <div class="btn-group-row">
+                    <button class="btn-acak" onclick="generateJobdesk()">🎲 ACAK & SIMPAN</button>
+                    <button class="btn-png" onclick="downloadImage()">📸 UNDUH PNG</button>
+                </div>
+            </div>
+
+            <div class="capture-container">
+                <div id="captureArea" class="capture-box">
+                    <div class="capture-header">
+                        <h2>LAPORAN TUGAS OPERASIONAL</h2>
+                        <div id="shiftDisplayText" class="shift-tag">SHIFT PAGI</div>
+                        <div id="tableDateText" class="date-tag"></div>
+                    </div>
+                    <table class="result-table">
+                        <thead>
+                            <tr><th>NAMA PERSONEL</th><th>TUGAS</th></tr>
+                        </thead>
+                        <tbody id="resultBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
