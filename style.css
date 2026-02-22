@@ -102,3 +102,54 @@ body, html {
 .sidebar-log { width: 200px; background: rgba(0,0,0,0.5); border-left: 1px solid var(--border); display: flex; flex-direction: column; }
 .log-header { padding: 15px; font-weight: bold; font-size: 12px; border-bottom: 1px solid var(--border); color: var(--accent-yellow); }
 .log-body { flex: 1; padding: 10px; font-size: 11px; overflow-y: auto; }
+
+/* Sidebar & Nav */
+.nav-absensi-red {
+    background: #ff0000 !important;
+    color: white !important;
+    margin: 10px 15px !important;
+    border-radius: 8px !important;
+    font-weight: 800 !important;
+    box-shadow: 0 4px 10px rgba(255, 0, 0, 0.4);
+}
+
+.hidden { display: none; }
+
+/* Tabel Jobdesk (DIPERKECIL Sesuai Permintaan) */
+.capture-box-small {
+    width: 100%;
+    max-width: 500px; /* Ukuran mungil */
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    color: #000;
+    margin: 0 auto;
+}
+
+.result-table-compact {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+}
+
+.result-table-compact th, .result-table-compact td {
+    border: 1px solid #ddd;
+    padding: 5px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Stats Absensi */
+.stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+.stat-card { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; text-align: center; border: 1px solid rgba(255,255,255,0.1); }
+.stat-card.ontime { color: #00ff88; border-bottom: 3px solid #00ff88; }
+.stat-card.late { color: #ff4d4d; border-bottom: 3px solid #ff4d4d; }
+
+/* Clock & Tools */
+.clock-box { background: #000; color: #00ff88; padding: 5px 10px; border: 1px solid #00ff88; font-family: 'Orbitron'; border-radius: 5px; }
+.abs-tools { display: grid; grid-template-columns: 1fr 1fr 100px 100px; gap: 10px; margin-bottom: 15px; }
+
+.abs-table-wrap { background: #fff; border-radius: 8px; overflow: hidden; }
+#tblAbsensi { width: 100%; border-collapse: collapse; color: #000; font-size: 12px; }
+#tblAbsensi th { background: #0f172a; color: #fff; padding: 10px; }
+#tblAbsensi td { padding: 8px; border-bottom: 1px solid #eee; text-align: center; font-weight: bold; }
