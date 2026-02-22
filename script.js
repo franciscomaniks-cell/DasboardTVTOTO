@@ -1,115 +1,79 @@
-// --- 1. NAVIGASI TAB ---
-function switchTab(tab) {
-    // Tab Elements
-    const tabJobdesk = document.getElementById('tabJobdesk');
-    const tabAbsensi = document.getElementById('tabAbsensi');
+// Navigasi Antar Tab
+function switchTab(tabId) {
+    // Sembunyikan semua konten
+    document.getElementById('contentJobdesk').classList.add('hidden');
+    document.getElementById('contentAbsensi').classList.add('hidden');
     
-    // Nav Elements
-    const btnJobdesk = document.getElementById('btnNavJobdesk');
-    const btnAbsensi = document.getElementById('btnNavAbsensi');
+    // Matikan semua menu aktif
+    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
 
-    if(tab === 'jobdesk') {
-        tabJobdesk.classList.remove('hidden');
-        tabAbsensi.classList.add('hidden');
-        btnJobdesk.classList.add('active');
-        btnAbsensi.classList.remove('active');
+    // Aktifkan yang dipilih
+    if(tabId === 'jobdesk') {
+        document.getElementById('contentJobdesk').classList.remove('hidden');
+        document.getElementById('navJobdesk').classList.add('active');
     } else {
-        tabJobdesk.classList.add('hidden');
-        tabAbsensi.classList.remove('hidden');
-        btnJobdesk.classList.remove('active');
-        btnAbsensi.classList.add('active');
+        document.getElementById('contentAbsensi').classList.remove('hidden');
+        document.getElementById('navAbsensi').classList.add('active');
     }
 }
 
-// --- 2. SISTEM PENGACAK JOBDESK ---
+// Logika Pengacak Jobdesk
 function generateJobdesk() {
+    const staff = document.getElementById("staffInput").value.split("\n").filter(x => x.trim() !== "");
+    const jobs = document.getElementById("jobInput").value.split("\n").filter(x => x.trim() !== "");
     const shift = document.getElementById("shiftSelect").value;
-    const staffText = document.getElementById("staffInput").value;
-    const jobText = document.getElementById("jobInput").value;
 
-    const staff = staffText.split("\n").filter(line => line.trim() !== "");
-    const jobs = jobText.split("\n").filter(line => line.trim() !== "");
+    if(staff.length === 0) return alert("Masukkan nama staff!");
 
-    if (staff.length === 0) return alert("Daftar staff tidak boleh kosong!");
-
-    // Update Tampilan Header Tabel
-    document.getElementById("shiftDisplayText").innerText = shift;
-    document.getElementById("tableDateText").innerText = new Date().toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric' });
+    document.getElementById("displayShift").innerText = shift;
+    document.getElementById("displayDate").innerText = new Date().toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric' });
 
     const tbody = document.getElementById("resultBody");
     tbody.innerHTML = "";
 
-    // Logika Pengacakan
+    // Acak Jobdesk
     let shuffledJobs = [...jobs].sort(() => Math.random() - 0.5);
 
-    staff.forEach((person, index) => {
-        const row = document.createElement("tr");
-        const tugas = shuffledJobs[index] || "BACKUP / OFF";
-        
-        row.innerHTML = `
-            <td>${person.toUpperCase()}</td>
-            <td>${tugas.toUpperCase()}</td>
-        `;
-        tbody.appendChild(row);
+    staff.forEach((name, i) => {
+        const row = `<tr>
+            <td>${name.toUpperCase()}</td>
+            <td>${shuffledJobs[i] || 'CADANGAN / OFF'}</td>
+        </tr>`;
+        tbody.innerHTML += row;
     });
 }
 
-// --- 3. SISTEM ABSENSI (VOICE LOGIC) ---
-function speakAI(text) {
-    const synth = window.speechSynthesis;
-    const utter = new SpeechSynthesisUtterance(text);
-    utter.lang = 'id-ID';
-    utter.rate = 1.0;
-    synth.speak(utter);
+// Logika Suara Absensi
+function panggilSuara(nama) {
+    const ucapan = new SpeechSynthesisUtterance(`Selamat datang ${nama}`);
+    ucapan.lang = 'id-ID';
+    window.speechSynthesis.speak(ucapan);
 }
 
-function tambahAbsen() {
-    const nameInput = document.getElementById("iNameAbsen");
-    const name = nameInput.value.trim().toUpperCase();
-    const shift = document.getElementById("sShiftAbsen").value;
-    const time = document.getElementById("clockDisplay").innerText;
+function prosesAbsen() {
+    const nama = document.getElementById("inputNamaAbsen").value.trim();
+    if(!nama) return;
 
-    if (!name) return alert("Silakan isi nama staff!");
+    panggilSuara(nama);
 
-    // Voice Welcome
-    speakAI("Selamat datang " + name.toLowerCase());
+    const table = document.getElementById("tableDataAbsensi");
+    const row = table.insertRow(0);
+    const jam = new Date().toLocaleTimeString('id-ID');
 
-    const tbody = document.querySelector("#tblAbsensi tbody");
-    const row = tbody.insertRow(0);
-    
     row.innerHTML = `
-        <td>${shift}</td>
-        <td style="text-align:left; padding-left:15px;">${name}</td>
-        <td>TARGET</td>
-        <td>${time}</td>
-        <td style="color:green; font-weight:bold;">TEPAT</td>
+        <td style="padding:10px; border-bottom:1px solid #334155;">${nama.toUpperCase()}</td>
+        <td style="padding:10px; border-bottom:1px solid #334155;">${jam}</td>
+        <td style="padding:10px; border-bottom:1px solid #334155; color:#00ff88;">HADIR</td>
     `;
 
-    nameInput.value = "";
-    
-    // Update Stats Sederhana
-    let currentOnTime = parseInt(document.getElementById("sOn").innerText);
-    document.getElementById("sOn").innerText = currentOnTime + 1;
+    document.getElementById("inputNamaAbsen").value = "";
+    // Update counter
+    let count = document.getElementById("countHadir");
+    count.innerText = parseInt(count.innerText) + 1;
 }
 
-// --- 4. JAM DIGITAL ---
-function updateClock() {
-    const now = new Date();
-    const timeStr = now.toLocaleTimeString('id-ID', { hour12: false });
-    const clockEl = document.getElementById("clockDisplay");
-    if(clockEl) clockEl.innerText = timeStr;
-}
-
-setInterval(updateClock, 1000);
-window.onload = updateClock;
-
-// --- 5. EXPORT PNG ---
-function downloadImage() {
-    const target = document.getElementById("captureArea");
-    html2canvas(target).then(canvas => {
-        const link = document.createElement('a');
-        link.download = 'Jobdesk-TVTOTO.png';
-        link.href = canvas.toDataURL();
-        link.click();
-    });
-}
+// Jam Digital
+setInterval(() => {
+    const jamEl = document.getElementById("jamRunning");
+    if(jamEl) jamEl.innerText = new Date().toLocaleTimeString('id-ID');
+}, 1000);
