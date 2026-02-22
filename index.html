@@ -31,25 +31,18 @@
             </div>
 
             <div id="registerForm" class="hidden">
-                <div class="auth-header">
-                    <h1>CREATE<span> ACCOUNT</span></h1>
-                    <p>Daftarkan personel baru.</p>
-                </div>
-                <div class="form-group"><label>Nama Lengkap</label><input type="text"></div>
+                <div class="auth-header"><h1>CREATE<span> ACCOUNT</span></h1></div>
                 <div class="form-group"><label>Username</label><input type="text"></div>
                 <div class="form-group"><label>Password</label><input type="password"></div>
-                <button class="auth-btn" style="background: var(--success);" onclick="alert('Berhasil! Silakan Login.')">PROCEED REGISTER</button>
-                <div class="auth-footer"><a onclick="toggleAuth('login')">Kembali ke Login</a></div>
+                <button class="auth-btn" style="background: var(--success);" onclick="toggleAuth('login')">REGISTER</button>
+                <div class="auth-footer"><a onclick="toggleAuth('login')">Kembali</a></div>
             </div>
 
             <div id="forgotForm" class="hidden">
-                <div class="auth-header">
-                    <h1>RECOVERY<span> MODE</span></h1>
-                    <p>Kirim permintaan reset ke admin.</p>
-                </div>
-                <div class="form-group"><label>Username Terdaftar</label><input type="text"></div>
-                <button class="auth-btn" style="background: var(--danger);" onclick="alert('Permintaan terkirim!')">SEND REQUEST</button>
-                <div class="auth-footer"><a onclick="toggleAuth('login')">Kembali ke Login</a></div>
+                <div class="auth-header"><h1>RECOVERY<span> MODE</span></h1></div>
+                <div class="form-group"><label>Username</label><input type="text"></div>
+                <button class="auth-btn" style="background: var(--danger);" onclick="toggleAuth('login')">RESET</button>
+                <div class="auth-footer"><a onclick="toggleAuth('login')">Kembali</a></div>
             </div>
         </div>
     </div>
