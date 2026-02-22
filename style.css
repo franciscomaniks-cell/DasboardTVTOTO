@@ -1,19 +1,21 @@
-/* ROOT & BASE */
+/* --- BASE & LAYOUT --- */
 :root {
-    --primary: #0f172a;
+    --primary-bg: #0b1120;
+    --sidebar-bg: #0f172a;
     --accent-blue: #3b82f6;
     --accent-yellow: #ffff00;
     --danger: #ff4d4d;
     --success: #00ff88;
-    --glass: rgba(15, 23, 42, 0.8);
+    --text-main: #f8fafc;
+    --glass: rgba(255, 255, 255, 0.03);
     --border: rgba(255, 255, 255, 0.1);
 }
 
 body {
     margin: 0;
     font-family: 'Plus Jakarta Sans', sans-serif;
-    background: #0b1120;
-    color: #f8fafc;
+    background: var(--primary-bg);
+    color: var(--text-main);
     height: 100vh;
     overflow: hidden;
 }
@@ -21,19 +23,20 @@ body {
 .flex { display: flex; height: 100vh; }
 .hidden { display: none !important; }
 
-/* SIDEBAR */
+/* --- SIDEBAR --- */
 .sidebar {
     width: 260px;
-    background: var(--primary);
+    background: var(--sidebar-bg);
     border-right: 1px solid var(--border);
     display: flex;
     flex-direction: column;
 }
 
-.brand-text { font-family: 'Orbitron'; font-size: 20px; padding: 25px; font-weight: 900; }
+.sidebar-header { padding: 25px; border-bottom: 1px solid var(--border); }
+.brand-text { font-family: 'Orbitron'; font-size: 20px; font-weight: 900; }
 .brand-text span { color: var(--accent-blue); }
 
-.menu-label { padding: 10px 25px; font-size: 11px; color: #64748b; font-weight: 800; text-transform: uppercase; }
+.menu-label { padding: 15px 25px 5px; font-size: 11px; color: #64748b; font-weight: 800; text-transform: uppercase; }
 
 .nav-item {
     padding: 12px 25px;
@@ -43,11 +46,17 @@ body {
     display: flex;
     align-items: center;
     gap: 12px;
+    transition: 0.3s;
 }
 
+.nav-item:hover { background: rgba(255,255,255,0.05); }
 .nav-item.active { background: rgba(59, 130, 246, 0.1); color: var(--accent-blue); border-left: 4px solid var(--accent-blue); }
 
-/* TOMBOL ABSENSI MERAH */
+.nav-badge { font-size: 9px; padding: 2px 6px; border-radius: 4px; font-weight: bold; margin-left: auto; color: #fff; }
+.badge-new { background: #ef4444; }
+.badge-auto { background: #f59e0b; }
+
+/* TOMBOL MERAH ABSENSI */
 .nav-absensi-red {
     background: #ff0000 !important;
     color: white !important;
@@ -57,48 +66,42 @@ body {
     box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
 }
 
-.nav-absensi-red:hover { background: #cc0000 !important; }
-
-/* MAIN CONTENT */
+/* --- MAIN CONTENT AREA --- */
 .main-content { flex: 1; padding: 25px; overflow-y: auto; }
+
 .card { background: var(--glass); padding: 20px; border-radius: 15px; border: 1px solid var(--border); margin-bottom: 20px; }
-.orbitron-title { font-family: 'Orbitron'; color: var(--accent-yellow); font-size: 16px; margin: 0 0 15px 0; }
+.orbitron-title { font-family: 'Orbitron'; color: var(--accent-yellow); font-size: 16px; margin: 0 0 20px 0; }
 
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 textarea, select, input { 
-    width: 100%; padding: 10px; background: #000; border: 1px solid var(--border); 
+    width: 100%; padding: 12px; background: #000; border: 1px solid var(--border); 
     color: #fff; border-radius: 8px; font-size: 12px; margin-top: 5px;
 }
 
-/* TOMBOL AKSI */
 .btn-group-row { display: flex; gap: 10px; margin-top: 15px; }
 .btn-group-row button { flex: 1; padding: 12px; border-radius: 8px; cursor: pointer; border: none; font-family: 'Orbitron'; font-size: 11px; font-weight: bold; }
+
 .btn-acak { background: var(--accent-blue); color: #fff; }
 .btn-png { background: var(--success); color: #000; }
 
-/* REVISI: TABEL JOBDESK KECIL */
-.capture-container { display: flex; justify-content: center; padding: 10px; }
+/* --- JOBDESK TABLE (DIPERKECIL) --- */
+.capture-container { display: flex; justify-content: center; margin-top: 20px; }
 .capture-box-small { 
-    width: 100%; max-width: 500px; background: #fff; padding: 20px; 
-    border-radius: 10px; color: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    width: 100%; max-width: 550px; background: #fff; padding: 25px; 
+    border-radius: 8px; color: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
-.capture-header { text-align: center; border-bottom: 2px solid #000; margin-bottom: 10px; padding-bottom: 5px; }
-.capture-header h2 { font-size: 14px; margin: 0; }
-.shift-tag { font-size: 18px; font-weight: 900; color: #166534; }
-.date-tag { font-size: 11px; color: #64748b; }
+.capture-header { text-align: center; border-bottom: 2px solid #000; margin-bottom: 15px; padding-bottom: 10px; }
+.shift-tag { font-size: 18px; font-weight: 900; color: #16a34a; margin-top: 5px; }
 
-.result-table-compact { width: 100%; border-collapse: collapse; font-size: 12px; }
-.result-table-compact th { background: #f1f5f9; padding: 8px; border: 1px solid #cbd5e1; }
-.result-table-compact td { padding: 6px; border: 1px solid #cbd5e1; text-align: center; font-weight: 700; }
+.result-table-compact { width: 100%; border-collapse: collapse; font-size: 13px; }
+.result-table-compact th { background: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; }
+.result-table-compact td { padding: 8px; border: 1px solid #cbd5e1; text-align: center; font-weight: 800; }
 
-/* ABSENSI SECTION */
+/* --- ABSENSI SECTION --- */
 .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px; }
 .stat-card { background: var(--glass); padding: 15px; border-radius: 12px; text-align: center; border: 1px solid var(--border); }
-.stat-card p { font-family: 'Orbitron'; font-size: 24px; margin: 5px 0 0 0; font-weight: 900; }
+.stat-card.ontime { color: var(--success); border-bottom: 3px solid var(--success); }
+.stat-card.late { color: var(--danger); border-bottom: 3px solid var(--danger); }
 
-.abs-tools { display: grid; grid-template-columns: 1fr 1fr 120px 120px; gap: 10px; margin-bottom: 20px; align-items: end; }
-.clock-box { 
-    background: #000; color: var(--success); border: 1px solid var(--success); 
-    height: 40px; border-radius: 8px; display: flex; align-items: center; 
-    justify-content: center; font-family: 'Orbitron'; font-weight: bold; 
-}
+.abs-tools { display: grid; grid-template-columns: 1fr 1fr 120px 100px; gap: 10px; margin-bottom: 20px; }
+.clock-box { background: #000; color: var(--success); border: 1px solid var(--success); height: 45px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: 'Orbitron'; font-weight: bold; }
