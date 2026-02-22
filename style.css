@@ -1,155 +1,104 @@
+/* ROOT & BASE */
 :root {
-    --primary-bg: #0b1120;
-    --sidebar-bg: #0f172a;
+    --primary: #0f172a;
     --accent-blue: #3b82f6;
     --accent-yellow: #ffff00;
-    --danger: #ef4444;
-    --success: #22c55e;
-    --glass: rgba(30, 41, 59, 0.7);
+    --danger: #ff4d4d;
+    --success: #00ff88;
+    --glass: rgba(15, 23, 42, 0.8);
     --border: rgba(255, 255, 255, 0.1);
 }
 
-body, html {
-    margin: 0; font-family: 'Plus Jakarta Sans', sans-serif;
-    background: var(--primary-bg); color: #f8fafc; height: 100vh; overflow: hidden;
+body {
+    margin: 0;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: #0b1120;
+    color: #f8fafc;
+    height: 100vh;
+    overflow: hidden;
 }
 
-.flex { display: flex; }
+.flex { display: flex; height: 100vh; }
 .hidden { display: none !important; }
 
-/* Auth */
-#loginPage { height: 100vh; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle, #1e293b, #0b1120); }
-.auth-container { width: 350px; padding: 30px; background: var(--glass); border-radius: 20px; border: 1px solid var(--border); text-align: center; }
-.auth-header h1 { font-family: 'Orbitron'; font-size: 22px; }
-.auth-header span { color: var(--accent-blue); }
-.form-group { margin-bottom: 15px; text-align: left; }
-.form-group label { font-size: 10px; color: var(--accent-blue); font-weight: 800; display: block; margin-bottom: 5px; }
-.form-group input, .custom-select, textarea { width: 100%; padding: 10px; background: #000; border: 1px solid var(--border); color: #fff; border-radius: 8px; box-sizing: border-box; }
-.auth-btn { width: 100%; padding: 12px; background: var(--accent-blue); color: #fff; border: none; border-radius: 8px; font-family: 'Orbitron'; cursor: pointer; }
+/* SIDEBAR */
+.sidebar {
+    width: 260px;
+    background: var(--primary);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+}
 
-/* Dashboard */
-.sidebar { width: 250px; background: var(--sidebar-bg); border-right: 1px solid var(--border); display: flex; flex-direction: column; }
-.brand-text { font-family: 'Orbitron'; font-size: 1.2rem; font-weight: 900; padding: 25px; }
+.brand-text { font-family: 'Orbitron'; font-size: 20px; padding: 25px; font-weight: 900; }
 .brand-text span { color: var(--accent-blue); }
-.menu-label { padding: 10px 25px; font-size: 10px; color: #475569; font-weight: 800; }
-.nav-item { padding: 12px 25px; color: #94a3b8; cursor: pointer; font-size: 14px; display: flex; align-items: center; gap: 10px; }
-.nav-item.active { background: rgba(59, 130, 246, 0.1); color: var(--accent-blue); }
-.nav-badge { font-size: 8px; background: var(--danger); color: #fff; padding: 2px 5px; border-radius: 4px; margin-left: auto; }
 
-.main-content { flex: 1; padding: 25px; overflow-y: auto; }
-.card { background: var(--glass); padding: 20px; border-radius: 15px; border: 1px solid var(--border); }
-.orbitron-title { font-family: 'Orbitron'; color: var(--accent-yellow); font-size: 16px; margin-top: 0; }
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+.menu-label { padding: 10px 25px; font-size: 11px; color: #64748b; font-weight: 800; text-transform: uppercase; }
 
-.btn-group-row { display: flex; gap: 10px; margin-top: 15px; }
-.btn-group-row button { flex: 1; padding: 10px; font-size: 10px; font-family: 'Orbitron'; border: none; border-radius: 8px; cursor: pointer; }
-.btn-acak { background: var(--accent-blue); color: #fff; }
-.btn-png { background: var(--success); color: #000; }
-.btn-reset { background: var(--danger); color: #fff; }
-
-/* REVISI TABEL KECIL */
-.capture-container { display: flex; justify-content: center; margin-top: 20px; }
-.capture-box { width: 100%; max-width: 550px; background: #fff; padding: 20px; border-radius: 10px; color: #000; }
-.capture-header { text-align: center; border-bottom: 2px solid #000; margin-bottom: 15px; padding-bottom: 5px; }
-.capture-header h2 { font-size: 14px; margin: 0; }
-.shift-tag { font-size: 16px; font-weight: 900; color: #15803d; }
-.date-tag { font-size: 10px; color: #64748b; }
-
-.result-table { width: 100%; border-collapse: collapse; font-size: 11px; }
-.result-table th { background: #f1f5f9; padding: 8px; border: 1px solid #cbd5e1; }
-.result-table td { padding: 6px; border: 1px solid #cbd5e1; text-align: center; font-weight: 700; }
-.operator-lock { background: #dcfce7 !important; color: #166534; }
-
-.history-grid { display: flex; gap: 10px; flex-wrap: wrap; }
-.history-item { background: rgba(255,255,255,0.05); padding: 8px; border-radius: 5px; font-size: 10px; cursor: pointer; }
-
-/* ... (Kode CSS sebelumnya tetap ada, tambahkan di bawahnya) ... */
-
-.nav-special {
-    background: #ff0000 !important; /* Warna Merah seperti permintaan */
-    color: #fff !important;
-    margin: 10px 15px;
-    border-radius: 8px;
-    font-weight: 800;
-    box-shadow: 0 4px 10px rgba(255, 0, 0, 0.3);
+.nav-item {
+    padding: 12px 25px;
+    color: #94a3b8;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
-.nav-special:hover {
-    background: #cc0000 !important;
-}
+.nav-item.active { background: rgba(59, 130, 246, 0.1); color: var(--accent-blue); border-left: 4px solid var(--accent-blue); }
 
-/* Style Tambahan untuk Tabel Absensi agar menyatu */
-.stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px; }
-.stat-card { background: var(--glass); padding: 15px; border-radius: 12px; text-align: center; border: 1px solid var(--border); }
-.stat-ontime { border-bottom: 4px solid var(--success); color: var(--success); }
-.stat-late { border-bottom: 4px solid var(--danger); color: var(--danger); }
-
-.absensi-header-panel { display: flex; background: var(--glass); border-radius: 12px; overflow: hidden; margin-bottom: 20px; border: 1px solid var(--border); }
-.date-display { background: var(--accent-yellow); color: #000; padding: 10px 20px; text-align: center; }
-.title-display { flex: 1; display: flex; align-items: center; justify-content: center; font-family: 'Orbitron'; font-weight: 900; letter-spacing: 2px; }
-
-.tool-bar-absensi { display: grid; grid-template-columns: 1fr 1fr 120px 100px 100px; gap: 10px; margin-bottom: 20px; }
-.digital-clock-small { background: #000; color: var(--success); border: 1px solid var(--success); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: 'Orbitron'; font-weight: bold; }
-
-.btn-absen { background: var(--accent-blue); color: #fff; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
-.btn-reset-abs { background: var(--danger); color: #fff; border: none; border-radius: 8px; cursor: pointer; }
-
-.table-container-abs { background: #fff; border-radius: 12px; overflow: hidden; }
-.table-container-abs table { width: 100%; border-collapse: collapse; color: #000; font-size: 13px; }
-.table-container-abs th { background: var(--sidebar-bg); color: #fff; padding: 12px; }
-.table-container-abs td { padding: 10px; border-bottom: 1px solid #eee; text-align: center; font-weight: bold; }
-
-.sidebar-log { width: 200px; background: rgba(0,0,0,0.5); border-left: 1px solid var(--border); display: flex; flex-direction: column; }
-.log-header { padding: 15px; font-weight: bold; font-size: 12px; border-bottom: 1px solid var(--border); color: var(--accent-yellow); }
-.log-body { flex: 1; padding: 10px; font-size: 11px; overflow-y: auto; }
-
-/* Sidebar & Nav */
+/* TOMBOL ABSENSI MERAH */
 .nav-absensi-red {
     background: #ff0000 !important;
     color: white !important;
-    margin: 10px 15px !important;
-    border-radius: 8px !important;
-    font-weight: 800 !important;
-    box-shadow: 0 4px 10px rgba(255, 0, 0, 0.4);
-}
-
-.hidden { display: none; }
-
-/* Tabel Jobdesk (DIPERKECIL Sesuai Permintaan) */
-.capture-box-small {
-    width: 100%;
-    max-width: 500px; /* Ukuran mungil */
-    background: #fff;
-    padding: 15px;
+    margin: 10px 15px;
     border-radius: 8px;
-    color: #000;
-    margin: 0 auto;
+    font-weight: 800;
+    box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
 }
 
-.result-table-compact {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 11px;
+.nav-absensi-red:hover { background: #cc0000 !important; }
+
+/* MAIN CONTENT */
+.main-content { flex: 1; padding: 25px; overflow-y: auto; }
+.card { background: var(--glass); padding: 20px; border-radius: 15px; border: 1px solid var(--border); margin-bottom: 20px; }
+.orbitron-title { font-family: 'Orbitron'; color: var(--accent-yellow); font-size: 16px; margin: 0 0 15px 0; }
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+textarea, select, input { 
+    width: 100%; padding: 10px; background: #000; border: 1px solid var(--border); 
+    color: #fff; border-radius: 8px; font-size: 12px; margin-top: 5px;
 }
 
-.result-table-compact th, .result-table-compact td {
-    border: 1px solid #ddd;
-    padding: 5px;
-    text-align: center;
-    font-weight: bold;
+/* TOMBOL AKSI */
+.btn-group-row { display: flex; gap: 10px; margin-top: 15px; }
+.btn-group-row button { flex: 1; padding: 12px; border-radius: 8px; cursor: pointer; border: none; font-family: 'Orbitron'; font-size: 11px; font-weight: bold; }
+.btn-acak { background: var(--accent-blue); color: #fff; }
+.btn-png { background: var(--success); color: #000; }
+
+/* REVISI: TABEL JOBDESK KECIL */
+.capture-container { display: flex; justify-content: center; padding: 10px; }
+.capture-box-small { 
+    width: 100%; max-width: 500px; background: #fff; padding: 20px; 
+    border-radius: 10px; color: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
+.capture-header { text-align: center; border-bottom: 2px solid #000; margin-bottom: 10px; padding-bottom: 5px; }
+.capture-header h2 { font-size: 14px; margin: 0; }
+.shift-tag { font-size: 18px; font-weight: 900; color: #166534; }
+.date-tag { font-size: 11px; color: #64748b; }
 
-/* Stats Absensi */
-.stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
-.stat-card { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; text-align: center; border: 1px solid rgba(255,255,255,0.1); }
-.stat-card.ontime { color: #00ff88; border-bottom: 3px solid #00ff88; }
-.stat-card.late { color: #ff4d4d; border-bottom: 3px solid #ff4d4d; }
+.result-table-compact { width: 100%; border-collapse: collapse; font-size: 12px; }
+.result-table-compact th { background: #f1f5f9; padding: 8px; border: 1px solid #cbd5e1; }
+.result-table-compact td { padding: 6px; border: 1px solid #cbd5e1; text-align: center; font-weight: 700; }
 
-/* Clock & Tools */
-.clock-box { background: #000; color: #00ff88; padding: 5px 10px; border: 1px solid #00ff88; font-family: 'Orbitron'; border-radius: 5px; }
-.abs-tools { display: grid; grid-template-columns: 1fr 1fr 100px 100px; gap: 10px; margin-bottom: 15px; }
+/* ABSENSI SECTION */
+.stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px; }
+.stat-card { background: var(--glass); padding: 15px; border-radius: 12px; text-align: center; border: 1px solid var(--border); }
+.stat-card p { font-family: 'Orbitron'; font-size: 24px; margin: 5px 0 0 0; font-weight: 900; }
 
-.abs-table-wrap { background: #fff; border-radius: 8px; overflow: hidden; }
-#tblAbsensi { width: 100%; border-collapse: collapse; color: #000; font-size: 12px; }
-#tblAbsensi th { background: #0f172a; color: #fff; padding: 10px; }
-#tblAbsensi td { padding: 8px; border-bottom: 1px solid #eee; text-align: center; font-weight: bold; }
+.abs-tools { display: grid; grid-template-columns: 1fr 1fr 120px 120px; gap: 10px; margin-bottom: 20px; align-items: end; }
+.clock-box { 
+    background: #000; color: var(--success); border: 1px solid var(--success); 
+    height: 40px; border-radius: 8px; display: flex; align-items: center; 
+    justify-content: center; font-family: 'Orbitron'; font-weight: bold; 
+}
