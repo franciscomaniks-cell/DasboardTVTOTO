@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TVTOTO | Dashboard</title>
+    <title>TVTOTO | Dashboard System</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -14,60 +14,100 @@
             <div class="sidebar-header"><div class="brand-text">DASH<span>BOARD</span></div></div>
             <div class="menu-label">Main System</div>
             <div class="nav-item"><span>📊</span> Overview</div>
+            
             <div class="menu-label">Operational Tool</div>
-            <div class="nav-item active" onclick="location.href='dashboard.html'"><span>📡</span> Atur Jobdesk <span class="nav-badge">NEW</span></div>
+            <div id="btnNavJobdesk" class="nav-item active" onclick="switchTab('jobdesk')"><span>📡</span> Atur Jobdesk <span class="nav-badge">NEW</span></div>
             <div class="nav-item"><span>📱</span> Absensi LINE <span class="nav-badge">AUTO</span></div>
-            <div class="nav-item nav-special" onclick="location.href='absensi.html'"><span>👥</span> Absensi Kehadiran</div>
+            
+            <div id="btnNavAbsensi" class="nav-item nav-absensi-red" onclick="switchTab('absensi')">
+                <span>👥</span> ABSENSI KEHADIRAN
+            </div>
             
             <div style="margin-top: auto; padding-bottom: 20px;">
-                <div class="nav-item" onclick="handleLogout()" style="color: var(--danger);"><span>🚪</span> Sign Out</div>
+                <div class="nav-item" onclick="location.href='index.html'" style="color: #ff4d4d;"><span>🚪</span> Sign Out</div>
             </div>
         </div>
 
         <div class="main-content">
-            <div class="card">
-                <h2 class="orbitron-title">SISTEM PENGACAK JOBDESK</h2>
-                <div class="grid-2">
-                    <div>
-                        <label>🕒 Pilih Shift Kerja</label>
-                        <select id="shiftSelect" class="custom-select">
-                            <option value="SHIFT PAGI">SHIFT PAGI</option>
-                            <option value="SHIFT SORE">SHIFT SORE</option>
-                            <option value="SHIFT MALAM">SHIFT MALAM</option>
-                        </select>
-                        <label style="margin-top:15px">👥 Daftar Staff</label>
-                        <textarea id="staffInput" rows="5">RADO DINATA
-IRVAN GANESHA
-JOSIA ROMANDA GINTING</textarea>
+            
+            <div id="tabJobdesk">
+                <div class="card">
+                    <h2 class="orbitron-title">SISTEM PENGACAK JOBDESK</h2>
+                    <div class="grid-2">
+                        <div>
+                            <label>🕒 Pilih Shift Kerja</label>
+                            <select id="shiftSelect" class="custom-select">
+                                <option value="SHIFT PAGI">SHIFT PAGI</option>
+                                <option value="SHIFT SORE">SHIFT SORE</option>
+                                <option value="SHIFT MALAM">SHIFT MALAM</option>
+                            </select>
+                            <label style="margin-top:15px">👥 Daftar Staff</label>
+                            <textarea id="staffInput" rows="5">RADO DINATA
+IRVAN GANESHA</textarea>
+                        </div>
+                        <div>
+                            <label>💼 Daftar Jobdesk</label>
+                            <textarea id="jobInput" rows="8">DEPO BRI, BNI
+WD BCA, BRI</textarea>
+                        </div>
                     </div>
-                    <div>
-                        <label>💼 Daftar Jobdesk</label>
-                        <textarea id="jobInput" rows="8">DEPO BRI, BNI
-WD BCA, BRI
-SCATER</textarea>
+                    <div class="btn-group-row">
+                        <button class="btn-acak" onclick="generateJobdesk()">🎲 ACAK & SIMPAN</button>
+                        <button class="btn-png" onclick="downloadImage()">📸 UNDUH PNG</button>
                     </div>
                 </div>
-                <div class="btn-group-row">
-                    <button class="btn-acak" onclick="generateJobdesk()">🎲 ACAK & SIMPAN</button>
-                    <button class="btn-png" onclick="downloadImage()">📸 UNDUH PNG</button>
+
+                <div class="capture-container">
+                    <div id="captureArea" class="capture-box-small">
+                        <div class="capture-header">
+                            <h2>LAPORAN TUGAS OPERASIONAL</h2>
+                            <div id="shiftDisplayText" class="shift-tag">SHIFT PAGI</div>
+                            <div id="tableDateText" class="date-tag">22 Februari 2026</div>
+                        </div>
+                        <table class="result-table-compact">
+                            <thead><tr><th>NAMA PERSONEL</th><th>TUGAS</th></tr></thead>
+                            <tbody id="resultBody"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
-            <div class="capture-container">
-                <div id="captureArea" class="capture-box">
-                    <div class="capture-header">
-                        <h2>LAPORAN TUGAS OPERASIONAL</h2>
-                        <div id="shiftDisplayText" class="shift-tag">SHIFT PAGI</div>
-                        <div id="tableDateText" class="date-tag"></div>
+            <div id="tabAbsensi" class="hidden">
+                <div class="stat-grid">
+                    <div class="stat-card ontime"><h4>Tepat Waktu</h4><p id="sOn">0</p></div>
+                    <div class="stat-card late"><h4>Terlambat</h4><p id="sLate">0</p></div>
+                    <div class="stat-card absent"><h4>Belum Absen</h4><p id="sAbs">0</p></div>
+                </div>
+
+                <div class="absensi-panel">
+                    <div class="abs-header-box">
+                        <div class="abs-date"><span id="pDay">MINGGU</span><h3 id="pDate">22 FEB 2026</h3></div>
+                        <div class="abs-title">ABSENSI TVTOTO PRO</div>
                     </div>
-                    <table class="result-table">
-                        <thead>
-                            <tr><th>NAMA PERSONEL</th><th>TUGAS</th></tr>
-                        </thead>
-                        <tbody id="resultBody"></tbody>
-                    </table>
+
+                    <div class="abs-tools">
+                        <select id="sShiftAbsen">
+                            <option value="PAGI">PAGI (07:45)</option>
+                            <option value="SORE">SORE (15:45)</option>
+                            <option value="MALAM">MALAM (21:45)</option>
+                        </select>
+                        <input type="text" id="iNameAbsen" placeholder="Ketik Nama Staff..." list="staffs">
+                        <datalist id="staffs"></datalist>
+                        <div id="clockDisplay" class="clock-box">00:00:00</div>
+                        <button class="btn-blue" onclick="tambahAbsen()">ABSEN</button>
+                    </div>
+
+                    <div class="abs-table-wrap">
+                        <table id="tblAbsensi">
+                            <thead>
+                                <tr><th>SHIFT</th><th>NAMA</th><th>TARGET</th><th>AKTUAL</th><th>STATUS</th></tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
+
         </div>
     </div>
     <script src="script.js"></script>
