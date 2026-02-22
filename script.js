@@ -1,79 +1,98 @@
-// Navigasi Antar Tab
-function switchTab(tabId) {
-    // Sembunyikan semua konten
-    document.getElementById('contentJobdesk').classList.add('hidden');
-    document.getElementById('contentAbsensi').classList.add('hidden');
-    
-    // Matikan semua menu aktif
-    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+// Auth
+function toggleAuth(type) {
+    document.getElementById('loginForm').classList.add('hidden');
+    document.getElementById('registerForm').classList.add('hidden');
+    document.getElementById('forgotForm').classList.add('hidden');
+    document.getElementById(type + 'Form').classList.remove('hidden');
+}
 
-    // Aktifkan yang dipilih
-    if(tabId === 'jobdesk') {
-        document.getElementById('contentJobdesk').classList.remove('hidden');
-        document.getElementById('navJobdesk').classList.add('active');
-    } else {
-        document.getElementById('contentAbsensi').classList.remove('hidden');
-        document.getElementById('navAbsensi').classList.add('active');
+function handleLogin() {
+    const user = document.getElementById('userLogin').value;
+    if(user !== "") { location.href = 'jobdesk.html'; } 
+    else { alert("Isi Username!"); }
+}
+
+function handleLogout() { location.href = 'index.html'; }
+
+// Jobdesk Logic
+const dateOptions = { day: "numeric", month: "long", year: "numeric" };
+const dateNow = new Date().toLocaleDateString("id-ID", dateOptions);
+
+if (document.getElementById("tableDateText")) {
+    document.getElementById("tableDateText").innerText = dateNow;
+    renderHistory();
+}
+
+function generateJobdesk() {
+    const shift = document.getElementById("shiftSelect").value;
+    document.getElementById("shiftDisplayText").innerText = shift;
+
+    const staffArr = document.getElementById("staffInput").value.split("\n").filter(t => t.trim() !== "");
+    const jobArr = document.getElementById("jobInput").value.split("\n").filter(t => t.trim() !== "");
+
+    if (staffArr.length < 1) return alert("Isi nama staff!");
+
+    const operator = staffArr[0];
+    const others = staffArr.slice(1);
+    let shuffledJobs = [...jobArr].sort(() => Math.random() - 0.5);
+
+    const results = [{ name: operator, job: "OPERATOR" }];
+    others.forEach((name, i) => {
+        results.push({ name, job: shuffledJobs[i] || "OFF / CADANGAN" });
+    });
+
+    renderTable(results);
+    saveData(results, shift);
+}
+
+function renderTable(data) {
+    const tbody = document.getElementById("resultBody");
+    tbody.innerHTML = data.map(item => `
+        <tr class="${item.job === 'OPERATOR' ? 'operator-lock' : ''}">
+            <td>${item.name.toUpperCase()}</td>
+            <td>${item.job.toUpperCase()}</td>
+        </tr>
+    `).join('');
+}
+
+function saveData(data, shift) {
+    let history = JSON.parse(localStorage.getItem("tvtoto_history")) || [];
+    const entry = { id: Date.now(), date: dateNow, shift, assignments: data };
+    history.unshift(entry);
+    localStorage.setItem("tvtoto_history", JSON.stringify(history.slice(0, 5)));
+    renderHistory();
+}
+
+function renderHistory() {
+    const list = document.getElementById("historyList");
+    if (!list) return;
+    let history = JSON.parse(localStorage.getItem("tvtoto_history")) || [];
+    list.innerHTML = history.map(item => `
+        <div class="history-item" onclick="loadHistory(${item.id})">
+            ${item.shift}<br>${item.date}
+        </div>
+    `).join('') || "Kosong";
+}
+
+window.loadHistory = function(id) {
+    let history = JSON.parse(localStorage.getItem("tvtoto_history")) || [];
+    const item = history.find(h => h.id === id);
+    if (item) {
+        document.getElementById("shiftDisplayText").innerText = item.shift;
+        renderTable(item.assignments);
     }
 }
 
-// Logika Pengacak Jobdesk
-function generateJobdesk() {
-    const staff = document.getElementById("staffInput").value.split("\n").filter(x => x.trim() !== "");
-    const jobs = document.getElementById("jobInput").value.split("\n").filter(x => x.trim() !== "");
-    const shift = document.getElementById("shiftSelect").value;
+function clearHistory() {
+    localStorage.removeItem("tvtoto_history");
+    renderHistory();
+}
 
-    if(staff.length === 0) return alert("Masukkan nama staff!");
-
-    document.getElementById("displayShift").innerText = shift;
-    document.getElementById("displayDate").innerText = new Date().toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric' });
-
-    const tbody = document.getElementById("resultBody");
-    tbody.innerHTML = "";
-
-    // Acak Jobdesk
-    let shuffledJobs = [...jobs].sort(() => Math.random() - 0.5);
-
-    staff.forEach((name, i) => {
-        const row = `<tr>
-            <td>${name.toUpperCase()}</td>
-            <td>${shuffledJobs[i] || 'CADANGAN / OFF'}</td>
-        </tr>`;
-        tbody.innerHTML += row;
+function downloadImage() {
+    html2canvas(document.getElementById("captureArea")).then(canvas => {
+        const link = document.createElement("a");
+        link.download = `Jobdesk-${dateNow}.png`;
+        link.href = canvas.toDataURL();
+        link.click();
     });
 }
-
-// Logika Suara Absensi
-function panggilSuara(nama) {
-    const ucapan = new SpeechSynthesisUtterance(`Selamat datang ${nama}`);
-    ucapan.lang = 'id-ID';
-    window.speechSynthesis.speak(ucapan);
-}
-
-function prosesAbsen() {
-    const nama = document.getElementById("inputNamaAbsen").value.trim();
-    if(!nama) return;
-
-    panggilSuara(nama);
-
-    const table = document.getElementById("tableDataAbsensi");
-    const row = table.insertRow(0);
-    const jam = new Date().toLocaleTimeString('id-ID');
-
-    row.innerHTML = `
-        <td style="padding:10px; border-bottom:1px solid #334155;">${nama.toUpperCase()}</td>
-        <td style="padding:10px; border-bottom:1px solid #334155;">${jam}</td>
-        <td style="padding:10px; border-bottom:1px solid #334155; color:#00ff88;">HADIR</td>
-    `;
-
-    document.getElementById("inputNamaAbsen").value = "";
-    // Update counter
-    let count = document.getElementById("countHadir");
-    count.innerText = parseInt(count.innerText) + 1;
-}
-
-// Jam Digital
-setInterval(() => {
-    const jamEl = document.getElementById("jamRunning");
-    if(jamEl) jamEl.innerText = new Date().toLocaleTimeString('id-ID');
-}, 1000);
