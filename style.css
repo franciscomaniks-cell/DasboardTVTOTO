@@ -62,3 +62,43 @@ body, html {
 
 .history-grid { display: flex; gap: 10px; flex-wrap: wrap; }
 .history-item { background: rgba(255,255,255,0.05); padding: 8px; border-radius: 5px; font-size: 10px; cursor: pointer; }
+
+/* ... (Kode CSS sebelumnya tetap ada, tambahkan di bawahnya) ... */
+
+.nav-special {
+    background: #ff0000 !important; /* Warna Merah seperti permintaan */
+    color: #fff !important;
+    margin: 10px 15px;
+    border-radius: 8px;
+    font-weight: 800;
+    box-shadow: 0 4px 10px rgba(255, 0, 0, 0.3);
+}
+
+.nav-special:hover {
+    background: #cc0000 !important;
+}
+
+/* Style Tambahan untuk Tabel Absensi agar menyatu */
+.stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px; }
+.stat-card { background: var(--glass); padding: 15px; border-radius: 12px; text-align: center; border: 1px solid var(--border); }
+.stat-ontime { border-bottom: 4px solid var(--success); color: var(--success); }
+.stat-late { border-bottom: 4px solid var(--danger); color: var(--danger); }
+
+.absensi-header-panel { display: flex; background: var(--glass); border-radius: 12px; overflow: hidden; margin-bottom: 20px; border: 1px solid var(--border); }
+.date-display { background: var(--accent-yellow); color: #000; padding: 10px 20px; text-align: center; }
+.title-display { flex: 1; display: flex; align-items: center; justify-content: center; font-family: 'Orbitron'; font-weight: 900; letter-spacing: 2px; }
+
+.tool-bar-absensi { display: grid; grid-template-columns: 1fr 1fr 120px 100px 100px; gap: 10px; margin-bottom: 20px; }
+.digital-clock-small { background: #000; color: var(--success); border: 1px solid var(--success); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: 'Orbitron'; font-weight: bold; }
+
+.btn-absen { background: var(--accent-blue); color: #fff; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+.btn-reset-abs { background: var(--danger); color: #fff; border: none; border-radius: 8px; cursor: pointer; }
+
+.table-container-abs { background: #fff; border-radius: 12px; overflow: hidden; }
+.table-container-abs table { width: 100%; border-collapse: collapse; color: #000; font-size: 13px; }
+.table-container-abs th { background: var(--sidebar-bg); color: #fff; padding: 12px; }
+.table-container-abs td { padding: 10px; border-bottom: 1px solid #eee; text-align: center; font-weight: bold; }
+
+.sidebar-log { width: 200px; background: rgba(0,0,0,0.5); border-left: 1px solid var(--border); display: flex; flex-direction: column; }
+.log-header { padding: 15px; font-weight: bold; font-size: 12px; border-bottom: 1px solid var(--border); color: var(--accent-yellow); }
+.log-body { flex: 1; padding: 10px; font-size: 11px; overflow-y: auto; }
