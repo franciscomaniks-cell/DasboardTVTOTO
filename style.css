@@ -10,8 +10,13 @@
 }
 
 body, html {
-    margin: 0; font-family: 'Plus Jakarta Sans', sans-serif;
-    background: var(--primary-bg); color: #f8fafc; height: 100vh; overflow: hidden;
+    margin: 0; 
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--primary-bg); 
+    color: #f8fafc; 
+    min-height: 100vh; /* Ganti height menjadi min-height */
+    overflow-x: hidden; 
+    /* Hapus overflow: hidden agar halaman bisa di-scroll setelah login */
 }
 
 .flex { display: flex; }
@@ -94,3 +99,64 @@ body, html {
     font-family: 'Arial', sans-serif;
 }
 .result-table th { background: #1e293b; color: #fff; }
+
+/* --- PERBAIKAN TAMPILAN DASHBOARD --- */
+
+/* Memastikan elemen tersembunyi dengan sempurna */
+.hidden { 
+    display: none !important; 
+}
+
+/* Badge Status untuk Tabel Absensi */
+.badge-green { 
+    background: var(--success); 
+    color: white; 
+    padding: 2px 8px; 
+    border-radius: 4px; 
+    font-size: 10px; 
+    font-weight: bold;
+}
+
+.badge-red { 
+    background: var(--danger); 
+    color: white; 
+    padding: 2px 8px; 
+    border-radius: 4px; 
+    font-size: 10px; 
+    font-weight: bold;
+}
+
+/* Gaya untuk Riwayat yang bisa diklik */
+.history-item { 
+    background: rgba(255,255,255,0.05); 
+    padding: 12px; 
+    border-radius: 10px; 
+    border: 1px solid var(--border);
+    cursor: pointer; 
+    transition: all 0.3s ease;
+}
+
+.history-item:hover { 
+    background: rgba(59, 130, 246, 0.2); 
+    border-color: var(--accent-blue);
+    transform: translateY(-2px);
+}
+
+/* Jam Digital Dashboard */
+.clock-box {
+    background: #000;
+    color: var(--accent-yellow);
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-family: 'Orbitron';
+    border: 1px solid var(--accent-blue);
+    min-width: 100px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+}
+
+/* Penyesuaian Tabel saat di-Capture PNG */
+#captureArea {
+    background: #ffffff; /* Memastikan background putih saat diunduh */
+    color: #000000;
+}
