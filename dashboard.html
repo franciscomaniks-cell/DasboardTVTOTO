@@ -3,53 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard | TVTOTO</title>
+    <title>TVTOTO | Dashboard System</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
-    <div class="flex">
+    <div class="flex-container">
         <div class="sidebar">
             <div class="sidebar-header">
                 <div class="brand-text">DASH<span>BOARD</span></div>
             </div>
             
             <div class="menu-label">Main System</div>
-            <div class="nav-item" onclick="switchTab('overview')"><span>📊</span> Overview</div>
+            <div class="nav-item" onclick="switchTab('overview')">📊 Overview</div>
             
             <div class="menu-label">Operational Tool</div>
             <div id="nav-jobdesk" class="nav-item active" onclick="switchTab('jobdesk')">
-                <span>📡</span> Atur Jobdesk <span class="nav-badge">NEW</span>
+                📡 Atur Jobdesk <span class="nav-badge">NEW</span>
             </div>
-            <div class="nav-item" onclick="switchTab('line')"><span>📱</span> Absensi LINE <span class="nav-badge">AUTO</span></div>
-            <div class="nav-item nav-absensi-red" onclick="switchTab('absensi')"><span>👥</span> ABSENSI KEHADIRAN</div>
+            <div class="nav-item" onclick="switchTab('line')">📱 Absensi LINE <span class="nav-badge">AUTO</span></div>
+            <div class="nav-item nav-absensi-red" onclick="switchTab('absensi')">👥 ABSENSI KEHADIRAN</div>
 
             <div class="sidebar-footer">
-                <div class="nav-item logout-btn" onclick="handleLogout()"><span>🚪</span> Logout</div>
+                <div class="nav-item" onclick="handleLogout()" style="color: #ef4444;">🚪 Logout</div>
             </div>
         </div>
 
         <div class="main-content">
-            <div id="tabJobdesk" class="tab-content">
+            <div id="tab-jobdesk" class="tab-content">
                 <div class="card">
                     <h2 class="orbitron-title">SISTEM PENGACAK JOBDESK</h2>
-                    <div class="grid-2">
+                    <div class="grid-inputs">
                         <div>
-                            <label>🕒 Pilih Shift Kerja</label>
-                            <select id="shiftSelect" class="custom-select">
+                            <label>🕒 PILIH SHIFT KERJA</label>
+                            <select id="shiftSelect">
                                 <option value="SHIFT PAGI">SHIFT PAGI</option>
                                 <option value="SHIFT SORE">SHIFT SORE</option>
                                 <option value="SHIFT MALAM">SHIFT MALAM</option>
                             </select>
-                            <label style="margin-top:15px">👥 Daftar Staff (Baris 1 = Operator)</label>
-                            <textarea id="staffInput" rows="8" placeholder="Masukkan nama staff..."></textarea>
+                            
+                            <label style="margin-top:20px;">👥 DAFTAR STAFF (BARIS 1 = OPERATOR)</label>
+                            <textarea id="staffInput" rows="10" placeholder="Masukkan nama staff (satu nama per baris)..."></textarea>
                         </div>
                         <div>
-                            <label>💼 Daftar Jobdesk</label>
-                            <textarea id="jobInput" rows="11" placeholder="Masukkan daftar tugas..."></textarea>
+                            <label>💼 DAFTAR JOBDESK / TUGAS</label>
+                            <textarea id="jobInput" rows="15" placeholder="Masukkan daftar tugas..."></textarea>
                         </div>
                     </div>
-                    <div class="btn-group-row">
+                    <div class="btn-group">
                         <button class="btn-acak" onclick="generateJobdesk()">🎲 ACAK & SIMPAN</button>
                         <button class="btn-png" onclick="downloadImage()">📸 UNDUH PNG</button>
                     </div>
@@ -58,21 +59,25 @@
                 <div id="captureArea" class="capture-box">
                     <div class="capture-header">
                         <h2>LAPORAN TUGAS OPERASIONAL</h2>
-                        <div id="shiftDisplayText" class="shift-tag">-</div>
-                        <div id="tableDateText" class="date-tag"></div>
+                        <div id="shiftText" class="shift-tag">SHIFT PAGI</div>
+                        <div id="dateText" class="date-tag"></div>
                     </div>
                     <table class="result-table">
                         <thead>
-                            <tr><th>NAMA PERSONEL</th><th>TUGAS</th></tr>
+                            <tr>
+                                <th>NAMA PERSONEL</th>
+                                <th>TUGAS</th>
+                            </tr>
                         </thead>
-                        <tbody id="resultBody"></tbody>
+                        <tbody id="resultBody">
+                            </tbody>
                     </table>
                 </div>
             </div>
 
-            <div id="tabOverview" class="tab-content hidden"><div class="card"><h2>Overview System Active</h2></div></div>
-            <div id="tabLine" class="tab-content hidden"><div class="card"><h2>Absensi LINE Integrated</h2></div></div>
-            <div id="tabAbsensi" class="tab-content hidden"><div class="card"><h2>Absensi Kehadiran Panel</h2></div></div>
+            <div id="tab-overview" class="tab-content hidden"><div class="card"><h2>Overview System Active</h2></div></div>
+            <div id="tab-line" class="tab-content hidden"><div class="card"><h2>Absensi LINE System Ready</h2></div></div>
+            <div id="tab-absensi" class="tab-content hidden"><div class="card"><h2>Panel Absensi Kehadiran</h2></div></div>
         </div>
     </div>
     <script src="script.js"></script>
