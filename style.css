@@ -9,14 +9,24 @@
     --border: rgba(255, 255, 255, 0.1);
 }
 
+/* GANTI BAGIAN INI */
 body, html {
     margin: 0; 
     font-family: 'Plus Jakarta Sans', sans-serif;
     background: var(--primary-bg); 
     color: #f8fafc; 
-    min-height: 100vh; /* Ganti height menjadi min-height */
-    overflow-x: hidden; 
-    /* Hapus overflow: hidden agar halaman bisa di-scroll setelah login */
+    min-height: 100vh; /* Gunakan min-height, bukan height tetap */
+    overflow-y: auto;  /* Izinkan scroll vertikal */
+}
+
+/* TAMBAHKAN INI DI PALING BAWAH */
+#dashboardPage, .main-content {
+    display: flex;
+    min-height: 100vh;
+}
+
+.hidden {
+    display: none !important;
 }
 
 .flex { display: flex; }
