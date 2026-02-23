@@ -1,36 +1,45 @@
-// Auth
-function toggleAuth(type) {
-    document.getElementById('loginForm').classList.add('hidden');
-    document.getElementById('registerForm').classList.add('hidden');
-    document.getElementById('forgotForm').classList.add('hidden');
-    document.getElementById(type + 'Form').classList.remove('hidden');
-}
-
-function handleLogin() {
-    const user = document.getElementById('userLogin').value;
-    if(user !== "") { location.href = 'jobdesk.html'; } 
-    else { alert("Isi Username!"); }
-}
-
-function handleLogout() { location.href = 'index.html'; }
-
-// Jobdesk Logic
+// --- CONFIG & DATA ---
 const dateOptions = { day: "numeric", month: "long", year: "numeric" };
 const dateNow = new Date().toLocaleDateString("id-ID", dateOptions);
 
-if (document.getElementById("tableDateText")) {
-    document.getElementById("tableDateText").innerText = dateNow;
-    renderHistory();
+// Inisialisasi Data
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById("tableDateText")) {
+        document.getElementById("tableDateText").innerText = dateNow;
+        if(document.getElementById("pDate")) document.getElementById("pDate").innerText = dateNow.toUpperCase();
+        renderHistory();
+        loadSavedInputs();
+    }
+});
+
+// --- NAVIGATION ---
+function switchTab(tabId) {
+    // Sembunyikan semua tab
+    document.getElementById('tabJobdesk').classList.add('hidden');
+    document.getElementById('tabAbsensi').classList.add('hidden');
+    
+    // Tampilkan tab yang dipilih
+    document.getElementById('tab' + tabId.charAt(0).toUpperCase() + tabId.slice(1)).classList.remove('hidden');
+    
+    // Update State Menu
+    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+    event.currentTarget.classList.add('active');
 }
 
+// --- JOBDESK LOGIC ---
 function generateJobdesk() {
     const shift = document.getElementById("shiftSelect").value;
-    document.getElementById("shiftDisplayText").innerText = shift;
+    const staffInput = document.getElementById("staffInput").value;
+    const jobInput = document.getElementById("jobInput").value;
 
-    const staffArr = document.getElementById("staffInput").value.split("\n").filter(t => t.trim() !== "");
-    const jobArr = document.getElementById("jobInput").value.split("\n").filter(t => t.trim() !== "");
+    const staffArr = staffInput.split("\n").filter(t => t.trim() !== "");
+    const jobArr = jobInput.split("\n").filter(t => t.trim() !== "");
 
-    if (staffArr.length < 1) return alert("Isi nama staff!");
+    if (staffArr.length < 1) return alert("Minimal isi 1 nama staff!");
+
+    // Simpan input terakhir ke localStorage
+    localStorage.setItem('last_staff', staffInput);
+    localStorage.setItem('last_jobs', jobInput);
 
     const operator = staffArr[0];
     const others = staffArr.slice(1);
@@ -41,11 +50,12 @@ function generateJobdesk() {
         results.push({ name, job: shuffledJobs[i] || "OFF / CADANGAN" });
     });
 
-    renderTable(results);
-    saveData(results, shift);
+    document.getElementById("shiftDisplayText").innerText = shift;
+    renderJobTable(results);
+    saveJobHistory(results, shift);
 }
 
-function renderTable(data) {
+function renderJobTable(data) {
     const tbody = document.getElementById("resultBody");
     tbody.innerHTML = data.map(item => `
         <tr class="${item.job === 'OPERATOR' ? 'operator-lock' : ''}">
@@ -55,7 +65,7 @@ function renderTable(data) {
     `).join('');
 }
 
-function saveData(data, shift) {
+function saveJobHistory(data, shift) {
     let history = JSON.parse(localStorage.getItem("tvtoto_history")) || [];
     const entry = { id: Date.now(), date: dateNow, shift, assignments: data };
     history.unshift(entry);
@@ -69,30 +79,99 @@ function renderHistory() {
     let history = JSON.parse(localStorage.getItem("tvtoto_history")) || [];
     list.innerHTML = history.map(item => `
         <div class="history-item" onclick="loadHistory(${item.id})">
-            ${item.shift}<br>${item.date}
+            <strong>${item.shift}</strong><br><small>${item.date}</small>
         </div>
-    `).join('') || "Kosong";
+    `).join('') || "<p style='font-size:11px; opacity:0.5'>Belum ada riwayat</p>";
 }
 
-window.loadHistory = function(id) {
-    let history = JSON.parse(localStorage.getItem("tvtoto_history")) || [];
-    const item = history.find(h => h.id === id);
-    if (item) {
-        document.getElementById("shiftDisplayText").innerText = item.shift;
-        renderTable(item.assignments);
-    }
+function loadSavedInputs() {
+    if(localStorage.getItem('last_staff')) 
+        document.getElementById('staffInput').value = localStorage.getItem('last_staff');
+    if(localStorage.getItem('last_jobs')) 
+        document.getElementById('jobInput').value = localStorage.getItem('last_jobs');
 }
 
-function clearHistory() {
-    localStorage.removeItem("tvtoto_history");
-    renderHistory();
+// --- ABSENSI LOGIC ---
+let absenData = [];
+const shiftConfig = {
+    "PAGI": "07:45",
+    "SORE": "15:45",
+    "MALAM": "21:45"
+};
+
+function updateClock() {
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString('id-ID', { hour12: false });
+    document.querySelectorAll('#clockDisplay').forEach(el => el.innerText = timeStr);
+}
+setInterval(updateClock, 1000);
+
+function tambahAbsen() {
+    const name = document.getElementById("iNameAbsen").value.trim();
+    const shift = document.getElementById("sShiftAbsen").value;
+    
+    if (!name) return alert("Nama tidak boleh kosong!");
+
+    const now = new Date();
+    const timeNow = now.getHours() * 60 + now.getMinutes();
+    
+    const targetParts = shiftConfig[shift].split(":");
+    const timeTarget = parseInt(targetParts[0]) * 60 + parseInt(targetParts[1]);
+
+    const status = timeNow <= timeTarget ? "TEPAT WAKTU" : "TERLAMBAT";
+    
+    const newAbsen = {
+        shift,
+        name: name.toUpperCase(),
+        target: shiftConfig[shift],
+        aktual: now.toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'}),
+        status: status
+    };
+
+    absenData.push(newAbsen);
+    renderAbsenTable();
+    updateStats();
+    document.getElementById("iNameAbsen").value = "";
 }
 
+function renderAbsenTable() {
+    const tbody = document.querySelector("#tblAbsensi tbody");
+    tbody.innerHTML = absenData.map(item => `
+        <tr>
+            <td>${item.shift}</td>
+            <td style="text-align:left">${item.name}</td>
+            <td>${item.target}</td>
+            <td>${item.aktual}</td>
+            <td><span class="badge-${item.status === 'TEPAT WAKTU' ? 'green' : 'red'}">${item.status}</span></td>
+        </tr>
+    `).join('');
+}
+
+function updateStats() {
+    const onTime = absenData.filter(a => a.status === "TEPAT WAKTU").length;
+    const late = absenData.filter(a => a.status === "TERLAMBAT").length;
+    
+    document.querySelectorAll("#sOn").forEach(el => el.innerText = onTime);
+    document.querySelectorAll("#sLate").forEach(el => el.innerText = late);
+}
+
+// --- UTILS ---
 function downloadImage() {
-    html2canvas(document.getElementById("captureArea")).then(canvas => {
+    const area = document.getElementById("captureArea");
+    html2canvas(area, { backgroundColor: "#ffffff", scale: 2 }).then(canvas => {
         const link = document.createElement("a");
         link.download = `Jobdesk-${dateNow}.png`;
-        link.href = canvas.toDataURL();
+        link.href = canvas.toDataURL("image/png");
         link.click();
     });
+}
+
+function handleLogin() {
+    const user = document.getElementById('userLogin').value;
+    if(user.trim() !== "") { 
+        // Simulasi Login
+        document.getElementById('loginPage').style.display = 'none';
+    } else { 
+        alert("Masukkan Username!"); 
+    }
 }
