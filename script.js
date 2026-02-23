@@ -1,78 +1,94 @@
-// Validasi Login
-function handleLogin() {
-    const u = document.getElementById('userLogin').value;
-    const p = document.getElementById('passLogin').value;
-    if(u === "adit" && p === "123") {
-        window.location.href = 'dashboard.html';
-    } else {
-        alert("Akses Ditolak!");
-    }
-}
-
-// Navigasi Tab
-function switchTab(name) {
-    document.querySelectorAll('.tab-content').forEach(t => t.classList.add('hidden'));
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    
-    const target = 'tab' + name.charAt(0).toUpperCase() + name.slice(1);
-    document.getElementById(target).classList.remove('hidden');
-    event.currentTarget.classList.add('active');
-}
-
-// Auto-Save Staff saat mengetik
+// 1. AUTO-SAVE & INITIAL LOAD
 document.addEventListener('DOMContentLoaded', () => {
-    const staffArea = document.getElementById('staffInput');
-    const jobArea = document.getElementById('jobInput');
-    
-    if(staffArea) {
-        staffArea.value = localStorage.getItem('savedStaff') || "";
-        jobArea.value = localStorage.getItem('savedJobs') || "";
+    const staffInput = document.getElementById('staffInput');
+    const jobInput = document.getElementById('jobInput');
+    const dateText = document.getElementById('dateText');
+
+    if (staffInput) {
+        // Ambil data lama jika ada
+        staffInput.value = localStorage.getItem('tvtoto_staff') || "";
+        jobInput.value = localStorage.getItem('tvtoto_jobs') || "";
+
+        // Simpan setiap kali mengetik
+        staffInput.addEventListener('input', () => localStorage.setItem('tvtoto_staff', staffInput.value));
+        jobInput.addEventListener('input', () => localStorage.setItem('tvtoto_jobs', jobInput.value));
         
-        staffArea.addEventListener('input', () => localStorage.setItem('savedStaff', staffArea.value));
-        jobArea.addEventListener('input', () => localStorage.setItem('savedJobs', jobArea.value));
-        
-        document.getElementById('tableDateText').innerText = new Date().toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'});
+        // Pasang Tanggal Otomatis
+        const options = { day: 'numeric', month: 'long', year: 'numeric' };
+        dateText.innerText = new Date().toLocaleDateString('id-ID', options);
     }
 });
 
-// Logika Pengacakan
+// 2. NAVIGASI TAB SIDEBAR
+function switchTab(tabName) {
+    // Sembunyikan semua tab
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.add('hidden'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+
+    // Tampilkan tab yang dipilih
+    document.getElementById('tab-' + tabName).classList.remove('hidden');
+    
+    // Aktifkan menu sidebar (pencarian berdasarkan teks atau ID)
+    event.currentTarget.classList.add('active');
+}
+
+// 3. LOGIKA PENGACAKAN JOBDESK
 function generateJobdesk() {
     const shift = document.getElementById('shiftSelect').value;
-    const staff = document.getElementById('staffInput').value.split('\n').filter(x => x.trim() !== "");
-    const jobs = document.getElementById('jobInput').value.split('\n').filter(x => x.trim() !== "");
+    const staffRaw = document.getElementById('staffInput').value.split('\n').filter(s => s.trim() !== "");
+    const jobsRaw = document.getElementById('jobInput').value.split('\n').filter(j => j.trim() !== "");
 
-    if(staff.length === 0) return alert("Isi nama staff!");
+    if (staffRaw.length === 0) return alert("Masukkan minimal 1 nama staff!");
 
-    let results = [];
-    // Baris 1 selalu OPERATOR
-    results.push({ name: staff[0], job: "OPERATOR" });
+    let finalData = [];
+    
+    // Aturan: Baris pertama selalu OPERATOR
+    finalData.push({ name: staffRaw[0], job: "OPERATOR" });
 
-    let remainingStaff = staff.slice(1);
-    let shuffledJobs = [...jobs].sort(() => Math.random() - 0.5);
+    // Sisa staff dan pengacakan job
+    let remainingStaff = staffRaw.slice(1);
+    let shuffledJobs = [...jobsRaw].sort(() => Math.random() - 0.5);
 
-    remainingStaff.forEach((s, i) => {
-        results.push({ name: s, job: shuffledJobs[i] || "CADANGAN" });
+    remainingStaff.forEach((name, index) => {
+        finalData.push({
+            name: name,
+            job: shuffledJobs[index] || "CADANGAN / OFF"
+        });
     });
 
-    document.getElementById('shiftDisplayText').innerText = shift;
+    // Update Tampilan
+    document.getElementById('shiftText').innerText = shift;
     const tbody = document.getElementById('resultBody');
-    tbody.innerHTML = results.map(r => `
-        <tr class="${r.job === 'OPERATOR' ? 'op-row' : ''}">
-            <td>${r.name.toUpperCase()}</td>
-            <td>${r.job.toUpperCase()}</td>
+    tbody.innerHTML = finalData.map(item => `
+        <tr class="${item.job === 'OPERATOR' ? 'op-row' : ''}">
+            <td>${item.name.toUpperCase()}</td>
+            <td>${item.job.toUpperCase()}</td>
         </tr>
     `).join('');
 }
 
+// 4. DOWNLOAD PNG
 function downloadImage() {
-    html2canvas(document.getElementById('captureArea')).then(canvas => {
+    const area = document.getElementById('captureArea');
+    html2canvas(area, { backgroundColor: null, scale: 2 }).then(canvas => {
         const link = document.createElement('a');
-        link.download = 'jobdesk.png';
+        link.download = `Jobdesk-${new Date().getTime()}.png`;
         link.href = canvas.toDataURL();
         link.click();
     });
 }
 
+// 5. LOGIN & LOGOUT
+function handleLogin() {
+    const u = document.getElementById('userLogin').value;
+    const p = document.getElementById('passLogin').value;
+    if (u === "adit" && p === "123") {
+        window.location.href = 'dashboard.html';
+    } else {
+        alert("User atau Password Salah!");
+    }
+}
+
 function handleLogout() {
-    if(confirm("Logout?")) window.location.href = 'index.html';
+    if (confirm("Logout dari sistem?")) window.location.href = 'index.html';
 }
