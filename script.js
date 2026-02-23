@@ -117,4 +117,28 @@ function downloadImage() {
         link.href = canvas.toDataURL("image/png");
         link.click();
     });
+
+    function switchTab(tabName) {
+    // 1. Sembunyikan semua tab
+    document.getElementById('tabJobdesk').classList.add('hidden');
+    document.getElementById('tabOverview').classList.add('hidden');
+    document.getElementById('tabAbsensi').classList.add('hidden');
+    document.getElementById('tabLine').classList.add('hidden');
+
+    // 2. Tampilkan tab yang diklik
+    const activeTab = 'tab' + tabName.charAt(0).toUpperCase() + tabName.slice(1);
+    document.getElementById(activeTab).classList.remove('hidden');
+
+    // 3. Ubah warna menu yang aktif
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+    });
+    event.currentTarget.classList.add('active');
+}
+
+function handleLogout() {
+    if(confirm("Apakah anda yakin ingin logout?")) {
+        window.location.href = 'index.html';
+    }
+}
 }
