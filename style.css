@@ -1,137 +1,58 @@
 :root {
-    --primary-bg: #0b1120;
-    --sidebar-bg: #0f172a;
-    --accent-blue: #3b82f6;
-    --accent-yellow: #ffff00;
-    --danger: #ef4444;
-    --success: #22c55e;
-    --glass: rgba(30, 41, 59, 0.7);
-    --border: rgba(255, 255, 255, 0.1);
+    --bg: #0b1120;
+    --side: #0f172a;
+    --accent: #3b82f6;
+    --text: #f8fafc;
 }
 
-/* PERBAIKAN UTAMA: Hapus overflow hidden */
-body, html {
-    margin: 0;
-    padding: 0;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    background: var(--primary-bg);
-    color: #f8fafc;
-    min-height: 100vh; /* Menggunakan min-height agar tidak terkunci */
-    overflow-x: hidden;
+body, html { 
+    margin: 0; background: var(--bg); color: var(--text); 
+    font-family: 'Plus Jakarta Sans', sans-serif; min-height: 100vh;
 }
 
-.flex { 
-    display: flex; 
-    min-height: 100vh;
-}
-
+.flex { display: flex; min-height: 100vh; }
 .hidden { display: none !important; }
 
-/* Sidebar Styling */
-.sidebar { 
-    width: 260px; 
-    background: var(--sidebar-bg); 
-    border-right: 1px solid var(--border); 
-    display: flex; 
-    flex-direction: column;
-    flex-shrink: 0; /* Sidebar tidak menyusut */
-}
-
-.main-content { 
-    flex: 1; 
-    padding: 30px; 
-    overflow-y: auto; /* Scroll hanya di area konten */
-}
-
-/* Auth Page (Hanya untuk Index) */
-#loginPage { 
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    background: radial-gradient(circle, #1e293b, #0b1120); 
-}
-
-/* Navigasi */
-.nav-item { 
-    padding: 14px 25px; 
-    color: #94a3b8; 
-    cursor: pointer; 
-    transition: 0.3s;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.nav-item:hover, .nav-item.active { 
-    background: rgba(59, 130, 246, 0.1); 
-    color: var(--accent-blue); 
-}
-
-/* Utility Classes */
-.nav-absensi-red { color: #ff4d4d; font-weight: bold; }
-.nav-badge { font-size: 9px; background: var(--danger); padding: 2px 6px; border-radius: 4px; margin-left: auto; }
-
-/* Sidebar Layout */
+/* Sidebar */
 .sidebar {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    position: sticky;
-    top: 0;
+    width: 260px; background: var(--side); height: 100vh;
+    display: flex; flex-direction: column; position: sticky; top: 0;
+    border-right: 1px solid rgba(255,255,255,0.1);
 }
 
-/* Memaksa footer/logout ke paling bawah sidebar */
-.sidebar-footer {
-    margin-top: auto;
-    padding-bottom: 20px;
-    border-top: 1px solid var(--border);
+.sidebar-header { padding: 25px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.brand-text { font-weight: 800; font-size: 20px; color: white; }
+.brand-text span { color: var(--accent); }
+
+.nav-item { 
+    padding: 15px 25px; cursor: pointer; color: #94a3b8; 
+    display: flex; align-items: center; gap: 10px; transition: 0.3s;
+}
+.nav-item:hover, .nav-item.active { background: rgba(59,130,246,0.1); color: white; border-left: 4px solid var(--accent); }
+.nav-absensi-red { color: #ef4444; font-weight: bold; }
+.sidebar-footer { margin-top: auto; padding-bottom: 20px; border-top: 1px solid rgba(255,255,255,0.05); }
+
+/* Main Content */
+.main-content { flex: 1; padding: 30px; }
+.card { background: #1e293b; padding: 25px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+textarea, select {
+    width: 100%; background: #0b1120; border: 1px solid #334155;
+    color: white; padding: 12px; border-radius: 8px; margin-top: 5px;
 }
 
-.logout-btn {
-    color: var(--danger) !important;
-}
+.btn-group-row { display: flex; gap: 10px; margin-top: 20px; }
+button { flex: 1; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+.btn-acak { background: var(--accent); color: white; }
+.btn-png { background: #22c55e; color: white; }
 
-/* Perbaikan Tabel Jobdesk agar Sempurna */
-.capture-container {
-    margin-top: 30px;
-    display: flex;
-    justify-content: center;
-}
-
+/* Table PNG Area */
 .capture-box {
-    width: 100%;
-    max-width: 600px;
-    background: white; /* Background wajib putih untuk PNG */
-    padding: 25px;
-    border-radius: 8px;
-    color: #333;
+    background: white; color: #333; padding: 30px; border-radius: 10px;
+    width: 100%; max-width: 500px; margin: 30px auto; text-align: center;
 }
-
-.result-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 15px;
-}
-
-.result-table th {
-    background: #0f172a;
-    color: white;
-    padding: 12px;
-    border: 1px solid #dee2e6;
-}
-
-.result-table td {
-    padding: 12px;
-    border: 1px solid #dee2e6;
-    text-align: center;
-    font-weight: bold;
-    color: #000;
-}
-
-/* Menghilangkan Tab yang tidak aktif */
-.hidden {
-    display: none !important;
-}
+.result-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+.result-table th { background: #0f172a; color: white; padding: 10px; }
+.result-table td { border: 1px solid #ddd; padding: 10px; font-weight: bold; color: black; }
+.op-row td { background: #f0fdf4; color: #166534; }
