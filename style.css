@@ -73,3 +73,65 @@ body, html {
 /* Utility Classes */
 .nav-absensi-red { color: #ff4d4d; font-weight: bold; }
 .nav-badge { font-size: 9px; background: var(--danger); padding: 2px 6px; border-radius: 4px; margin-left: auto; }
+
+/* Sidebar Layout */
+.sidebar {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 0;
+}
+
+/* Memaksa footer/logout ke paling bawah sidebar */
+.sidebar-footer {
+    margin-top: auto;
+    padding-bottom: 20px;
+    border-top: 1px solid var(--border);
+}
+
+.logout-btn {
+    color: var(--danger) !important;
+}
+
+/* Perbaikan Tabel Jobdesk agar Sempurna */
+.capture-container {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.capture-box {
+    width: 100%;
+    max-width: 600px;
+    background: white; /* Background wajib putih untuk PNG */
+    padding: 25px;
+    border-radius: 8px;
+    color: #333;
+}
+
+.result-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.result-table th {
+    background: #0f172a;
+    color: white;
+    padding: 12px;
+    border: 1px solid #dee2e6;
+}
+
+.result-table td {
+    padding: 12px;
+    border: 1px solid #dee2e6;
+    text-align: center;
+    font-weight: bold;
+    color: #000;
+}
+
+/* Menghilangkan Tab yang tidak aktif */
+.hidden {
+    display: none !important;
+}
