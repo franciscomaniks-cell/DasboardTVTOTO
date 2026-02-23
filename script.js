@@ -168,10 +168,19 @@ function downloadImage() {
 
 function handleLogin() {
     const user = document.getElementById('userLogin').value;
-    if(user.trim() !== "") { 
-        // Simulasi Login
-        document.getElementById('loginPage').style.display = 'none';
-    } else { 
-        alert("Masukkan Username!"); 
+    const pass = document.getElementById('passLogin').value;
+
+    if (user !== "") {
+        // 1. Sembunyikan halaman login
+        const loginPage = document.getElementById('loginPage');
+        if (loginPage) {
+            loginPage.style.display = 'none'; 
+        }
+        
+        // 2. Jika kamu menggunakan file terpisah, arahkan ke dashboard
+        // Hapus baris di bawah ini jika kamu ingin sistem satu halaman (SPA)
+        location.href = 'dashboard.html'; 
+    } else {
+        alert("Masukkan Username!");
     }
 }
