@@ -1,17 +1,18 @@
 // --- 1. FUNGSI AUTH & NAVIGASI ---
 function handleLogin() {
     const user = document.getElementById('userLogin').value;
-    // Password bisa dikosongkan jika hanya untuk akses cepat, 
-    // tapi username wajib diisi.
-    
-    if (user.trim() !== "") { 
-        // Simpan status login sederhana di session agar tidak kembali ke login saat refresh
+    const pass = document.getElementById('passLogin').value;
+
+    // Validasi sederhana sesuai permintaan Anda
+    if(user === "adit" && pass === "123") { 
+        // Simpan session agar tidak logout saat refresh
         sessionStorage.setItem("isLoggedIn", "true");
         
-        // Arahkan ke file dashboard
+        // Pindah ke halaman dashboard
+        // Pastikan file dashboard.html ada di folder yang sama
         window.location.href = 'dashboard.html'; 
     } else { 
-        alert("Username wajib diisi untuk autentikasi!"); 
+        alert("Username atau Password Salah!"); 
     }
 }
 
