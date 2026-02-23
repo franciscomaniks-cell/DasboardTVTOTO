@@ -1,49 +1,21 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TVTOTO | Secure Access</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | TVTOTO System</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="loginPage">
-        <div class="auth-container">
-            <div id="loginForm">
-                <div class="auth-header">
-                    <h1>LOGIN<span> ACCESS</span></h1>
-                    <p>Masukkan kredensial untuk masuk ke sistem.</p>
-                </div>
-                <div class="form-group">
-                    <label>Username</label>
-                    <input type="text" id="userLogin" placeholder="Username">
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" id="passLogin" placeholder="••••••••">
-                </div>
-                <button class="auth-btn" onclick="handleLogin()">AUTHENTICATE</button>
-                <div class="auth-footer">
-                    Belum punya akun? <a onclick="toggleAuth('register')">Daftar</a><br><br>
-                    <a onclick="toggleAuth('forgot')" style="font-size: 11px; opacity: 0.6;">Lupa Password?</a>
-                </div>
+        <div class="login-card">
+            <h1 class="brand-text">TV<span>TOTO</span></h1>
+            <p>Enter your credentials to access dashboard</p>
+            <div class="input-group">
+                <input type="text" id="userLogin" placeholder="Username" required>
+                <input type="password" id="passLogin" placeholder="Password" required>
             </div>
-
-            <div id="registerForm" class="hidden">
-                <div class="auth-header"><h1>CREATE<span> ACCOUNT</span></h1></div>
-                <div class="form-group"><label>Username</label><input type="text"></div>
-                <div class="form-group"><label>Password</label><input type="password"></div>
-                <button class="auth-btn" style="background: var(--success);" onclick="toggleAuth('login')">REGISTER</button>
-                <div class="auth-footer"><a onclick="toggleAuth('login')">Kembali</a></div>
-            </div>
-
-            <div id="forgotForm" class="hidden">
-                <div class="auth-header"><h1>RECOVERY<span> MODE</span></h1></div>
-                <div class="form-group"><label>Username</label><input type="text"></div>
-                <button class="auth-btn" style="background: var(--danger);" onclick="toggleAuth('login')">RESET</button>
-                <div class="auth-footer"><a onclick="toggleAuth('login')">Kembali</a></div>
-            </div>
+            <button class="btn-login" onclick="handleLogin()">AUTHENTICATE</button>
         </div>
     </div>
     <script src="script.js"></script>
